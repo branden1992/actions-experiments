@@ -1,0 +1,23 @@
+name: Get diff of pull-request
+
+on:
+  - pull_request
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Print content of github context
+      run: |
+        cat << 'EOF'
+        ${{ toJSON(github) }}
+        EOF
+    - name: Fetch base branch
+      id: base_branch
+      run: |
+        git fetch --progress --depth=1 origin ${{ github.base_ref }}
+    - name: And finally, diff
+      run: git diff --name-only origin/master
