@@ -13,4 +13,4 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       run: |
-        echo ${{ github }}
+        echo ${{ JSON.stringify(github) }}
