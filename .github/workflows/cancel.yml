@@ -11,12 +11,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check the package is not uploaded yet
+      id: check
       run: |
-        if true; then
-          echo ::set-env name=CANCEL_BUILD::true
-        fi
-    - name: Cancel build if package exists
-      uses: andymckay/cancel-action@0.2
-      if: ${{ env.CANCEL_BUILD }}
+        exit 1
     - name: This shouldn't run
+      if: ${{ steps.check.outcome == 'success' }}
       run: echo I am not here
