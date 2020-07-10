@@ -17,3 +17,12 @@ jobs:
         cat << 'EOF'
         ${{ toJSON(github) }}
         EOF
+    - name: Check the version is updated
+      run: |
+        REF=${{ github.ref }}
+        TAG="${REF#refs/tags/}"
+        VERSION=$(echo '0.0.0.2')
+        if ! [ "${TAG}" = "v${VERSION}" ]; then
+          echo "Tag ${TAG} does not match the package version ${VERSION}" >'&2'
+          exit 1
+        fi
