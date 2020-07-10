@@ -18,3 +18,5 @@ jobs:
     - name: Cancel build if package exists
       uses: andymckay/cancel-action@0.2
       if: ${{ env.CANCEL_BUILD }}
+    - name: This shouldn't run
+      run: echo I am not here
