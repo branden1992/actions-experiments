@@ -1,0 +1,20 @@
+name: Test job cancel
+
+on:
+  - push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Check the package is not uploaded yet
+      run: |
+        if true; then
+          echo ::set-env name=CANCEL_BUILD::true
+        fi
+    - name: Cancel build if package exists
+      uses: andymckay/cancel-action@0.2
+      if: ${{ env.CANCEL_BUILD }}
