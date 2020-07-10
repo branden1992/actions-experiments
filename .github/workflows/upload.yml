@@ -23,6 +23,6 @@ jobs:
         TAG="${REF#refs/tags/}"
         VERSION=$(echo '0.0.0.2')
         if ! [ "${TAG}" = "v${VERSION}" ]; then
-          echo "Tag ${TAG} does not match the package version ${VERSION}" >'&2'
+          echo "Tag ${TAG} does not match the package version ${VERSION}" >&2
           exit 1
         fi
