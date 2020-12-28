@@ -15,10 +15,12 @@ jobs:
         cat << 'EOF'
         ${{ toJSON(github) }}
         EOF
-    - name: Fetch base branch
-      id: base_branch
-      run: |
-        git remote -v
-        git fetch --progress --depth=1 origin ${{ github.event.pull_request.base.label }}
-    - name: And finally, diff
-      run: git diff --name-only origin/master
+    - uses: jitterbit/get-changed-files@v1
+      id: files
+      with:
+        format: 'json'
+    - run: |
+        readarray -t files <<< $(jq -r '.[]|endswith(".py")' <<< '{{ steps.files.outputs.added_modified }}')
+        for file in ${files[@]}; do
+          echo $file
+        done
