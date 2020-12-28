@@ -20,7 +20,7 @@ jobs:
       with:
         format: 'json'
     - run: |
-        readarray -t files <<< $(jq -r '.[]|endswith(".py")' <<< '${{ steps.files.outputs.added_modified }}')
+        readarray -t files <<< $(jq -r '.[]|select(. | endswith(".py"))' <<< '${{ steps.files.outputs.added_modified }}')
         for file in ${files[@]}; do
           echo $file
         done
