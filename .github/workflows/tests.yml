@@ -18,6 +18,7 @@ jobs:
     - name: Fetch base branch
       id: base_branch
       run: |
-        git fetch --progress --depth=1 origin ${{ github.base_ref }}
+        git remote -v
+        git fetch --progress --depth=1 origin ${{ github.event.pull_request.base.label }}
     - name: And finally, diff
       run: git diff --name-only origin/master
