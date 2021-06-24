@@ -10,6 +10,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Print content of github context
+      run: |
+        cat << 'EOF'
+        ${{ toJSON(github) }}
+        EOF
+        echo ${{ github.ref }} ${{ 'refs/heads/' & githug.event.repository.default_branch }}
+        echo ${{ github.ref == 'refs/heads/' & githug.event.repository.default_branch }}
     - name: Check the package is not uploaded yet
       id: check
       run: |
