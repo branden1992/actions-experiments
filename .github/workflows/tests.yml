@@ -16,6 +16,26 @@ jobs:
         cat << 'EOF'
         ${{ toJSON(github) }}
         EOF
+        cat << 'EOF'
+        ${{ toJSON(runner) }}
+        EOF
+        cat << 'EOF'
+        ${{ toJSON(env) }}
+        EOF
+        cat << 'EOF'
+        ${{ toJSON(job) }}
+        EOF
+        env | sort
+        echo GITHUB_ENV
+        cat $GITHUB_ENV
+        echo 'GLOBALLY_SET_ENV=abrakadabra' >> $GITHUB_ENV
+    - name: Check GITHUB_ENV
+      run: |
+        env | sort
+        echo $GLOBALLY_SET_ENV
+        cat << 'EOF'
+        ${{ toJSON(env) }}
+        EOF
     - name: Fetch base branch
       id: base_branch
       run: |
