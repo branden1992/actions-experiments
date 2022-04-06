@@ -1,6 +1,7 @@
+---
 name: Get diff of pull-request
 
-on:
+'on':
   - pull_request
   - push
 
@@ -10,35 +11,58 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Print content of github context
-      run: |
-        cat << 'EOF'
-        ${{ toJSON(github) }}
-        EOF
-        cat << 'EOF'
-        ${{ toJSON(runner) }}
-        EOF
-        cat << 'EOF'
-        ${{ toJSON(env) }}
-        EOF
-        cat << 'EOF'
-        ${{ toJSON(job) }}
-        EOF
-        env | sort
-        echo GITHUB_ENV
-        cat $GITHUB_ENV
-        echo 'GLOBALLY_SET_ENV=abrakadabra' >> $GITHUB_ENV
-    - name: Check GITHUB_ENV
-      run: |
-        env | sort
-        echo $GLOBALLY_SET_ENV
-        cat << 'EOF'
-        ${{ toJSON(env) }}
-        EOF
-    - name: Fetch base branch
-      id: base_branch
-      run: |
-        git fetch --progress --depth=1 origin ${{ github.base_ref }}
-    - name: And finally, diff
-      run: git diff --name-only origin/master
+      - uses: actions/checkout@v2
+      - name: Print content of github context
+        run: |
+          cat << 'EOF'
+          ${{ toJSON(github) }}
+          EOF
+          cat << 'EOF'
+          ${{ toJSON(runner) }}
+          EOF
+          cat << 'EOF'
+          ${{ toJSON(env) }}
+          EOF
+          cat << 'EOF'
+          ${{ toJSON(job) }}
+          EOF
+          env | sort
+          echo GITHUB_ENV
+          cat $GITHUB_ENV
+          echo 'GLOBALLY_SET_ENV=abrakadabra' >> $GITHUB_ENV
+      - name: Check GITHUB_ENV
+        run: |
+          env | sort
+          echo $GLOBALLY_SET_ENV
+          cat << 'EOF'
+          ${{ toJSON(env) }}
+          EOF
+      - name: Fetch base branch
+        id: base_branch
+        run: |
+          git fetch --progress --depth=1 origin ${{ github.base_ref }}
+      - name: And finally, diff
+        run: git diff --name-only origin/master
+
+  additional-job:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - name: Print content of github context
+        run: |
+          cat << 'EOF'
+          ${{ toJSON(needs) }}
+          EOF
+
+  depends-on-all:
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - additional-job
+    steps:
+      - name: Print content of github context
+        run: |
+          cat << 'EOF'
+          ${{ toJSON(needs) }}
+          EOF
