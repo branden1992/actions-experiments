@@ -54,6 +54,7 @@ jobs:
           cat << 'EOF'
           ${{ toJSON(needs) }}
           EOF
+          echo '${{ needs.length }}'
 
   depends-on-all:
     runs-on: ubuntu-latest
