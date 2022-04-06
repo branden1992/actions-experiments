@@ -55,6 +55,7 @@ jobs:
           ${{ toJSON(needs) }}
           EOF
           echo '${{ needs.length }}'
+          echo "$( echo ${{ toJSON(needs) }} | jq '. | length')"
 
   depends-on-all:
     runs-on: ubuntu-latest
