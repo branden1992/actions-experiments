@@ -73,7 +73,8 @@ jobs:
           cat << 'EOF' | jq '. | length'
           ${{ toJSON(needs) }}
           EOF
-          DEPS=$(cat << 'EOF' | jq '. | length')
+          DEPS=$(cat << 'EOF' | jq '. | length'
           ${{ toJSON(needs) }}
           EOF
+          )
           echo $DEPS
