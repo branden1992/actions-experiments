@@ -70,3 +70,10 @@ jobs:
           cat << 'EOF'
           ${{ toJSON(needs) }}
           EOF
+          cat << 'EOF' | jq '. | length'
+          ${{ toJSON(needs) }}
+          EOF
+          DEPS=$(cat << 'EOF' | jq '. | length'
+          ${{ toJSON(needs) }}
+          EOF)
+          echo $DEPS
