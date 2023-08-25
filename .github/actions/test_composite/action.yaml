@@ -1,0 +1,11 @@
+name: Test composite
+description: Test composite actions
+inputs:
+  build_name:
+    description: 'Build name'
+    required: true
+    default: 'package_release'
+runs:
+  using: "composite"
+  steps:
+    - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
