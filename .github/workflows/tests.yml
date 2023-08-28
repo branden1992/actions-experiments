@@ -6,6 +6,9 @@ name: General tests
 
 jobs:
   call_test:
+    # This test fails completely
+    # https://github.com/orgs/community/discussions/8945
+    # https://github.com/actions/runner/issues/2577
     uses: ./.github/workflows/concurrency_call.yml
 
   composite_test:
