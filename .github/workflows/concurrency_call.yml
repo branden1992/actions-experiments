@@ -1,0 +1,11 @@
+name: ConcurrencyCallCheck
+concurrency:
+  group: dummy-group
+on:  # yamllint disable-line rule:truthy
+  workflow_dispatch:
+  workflow_call:
+jobs:
+  CallTest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
