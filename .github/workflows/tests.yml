@@ -57,3 +57,28 @@ jobs:
           git fetch --progress --depth=1 origin ${{ github.base_ref }}
       - name: And finally, diff
         run: git diff --name-only origin/master
+
+  CreateArtifact:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        id: [1, 2]
+    steps:
+      - run: |
+          mkdir -p artifact-${{ matrix.id }}
+          echo '{"id": ${{matrix.id}}}' > \
+            artifact-${{ matrix.id }}/artifact-${{ matrix.id }}.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: artifact-${{ matrix.id }}
+          path: artifact-${{ matrix.id }}/artifact-${{ matrix.id }}.json
+
+  DownloadArtifacts:
+    needs: [CreateArtifact]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          path: reports-dir
+      - run: |
+          ls -lRa reports-dir
