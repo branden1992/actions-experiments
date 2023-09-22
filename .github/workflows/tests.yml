@@ -10,6 +10,8 @@ jobs:
     # https://github.com/orgs/community/discussions/8945
     # https://github.com/actions/runner/issues/2577
     uses: ./.github/workflows/concurrency_call.yml
+    with:
+      outer-job-name: call_test
 
   composite_test:
     runs-on: ubuntu-latest
