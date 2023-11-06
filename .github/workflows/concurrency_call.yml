@@ -11,11 +11,15 @@ on:  # yamllint disable-line rule:truthy
       build-type:
         required: true
         type: string
+      runner-type:
+        default: ubuntu-latest
+        required: false
+        type: string
 jobs:
   CallTest:
     env:
       GITHUB_FULL_JOB: ${{ inputs.outer-job-name }} / CallTest
-    runs-on: ubuntu-latest
+    runs-on: ${{inputs.runner-type}}
     name: CallTest${{inputs.build-type}}
     steps:
       - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
