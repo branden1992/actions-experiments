@@ -8,8 +8,11 @@ on:  # yamllint disable-line rule:truthy
       outer-job-name:
         required: true
         type: string
+      build-type:
+        required: true
+        type: string
 jobs:
-  CallTest:
+  CallTest${{inputs.build-type}}:
     env:
       GITHUB_FULL_JOB: ${{ inputs.outer-job-name }} / CallTest
     runs-on: ubuntu-latest
