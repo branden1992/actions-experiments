@@ -11,7 +11,6 @@ jobs:
     # https://github.com/actions/runner/issues/2577
     uses: ./.github/workflows/concurrency_call.yml
     with:
-      outer-job-name: call_test
       build-type: name-one
   another_call:
     # This test fails completely
@@ -19,7 +18,6 @@ jobs:
     # https://github.com/actions/runner/issues/2577
     uses: ./.github/workflows/concurrency_call.yml
     with:
-      outer-job-name: another_call
       build-type: name-two
 
   composite_test:
