@@ -24,3 +24,24 @@ jobs:
     name: CallTest-${{inputs.build-type}}
     steps:
       - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
+      - run: |
+          echo github
+          cat << 'EOF'
+          ${{ toJSON(github) }}
+          EOF
+          echo runner
+          cat << 'EOF'
+          ${{ toJSON(runner) }}
+          EOF
+          echo env
+          cat << 'EOF'
+          ${{ toJSON(env) }}
+          EOF
+          echo job
+          cat << 'EOF'
+          ${{ toJSON(job) }}
+          EOF
+          env | sort
+          echo GITHUB_ENV
+          cat $GITHUB_ENV
+          echo 'GLOBALLY_SET_ENV=abrakadabra' >> $GITHUB_ENV
