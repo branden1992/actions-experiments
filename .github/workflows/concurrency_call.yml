@@ -19,7 +19,8 @@ jobs:
   CallTest:
     env:
       GITHUB_FULL_JOB: ${{ inputs.outer-job-name }} / CallTest
+      GITHUB_JOB: CallTest-${{inputs.build-type}}
     runs-on: ${{inputs.runner-type}}
-    name: CallTest${{inputs.build-type}}
+    name: CallTest-${{inputs.build-type}}
     steps:
       - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
