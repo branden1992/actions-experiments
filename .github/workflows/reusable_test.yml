@@ -1,0 +1,42 @@
+### For the pure soul wishes to move it to another place
+# https://github.com/orgs/community/discussions/9050
+
+name: Testing workflow
+'on':
+  workflow_call:
+    inputs:
+      test_name:
+        description: the value of test type from tests/ci/ci_config.py, ends up as $CHECK_NAME ENV
+        required: true
+        type: string
+      batches:
+        description: how many batches for the test will be launched
+        default: 1
+        type: number
+
+env:
+  CHECK_NAME: ${{inputs.test_name}}
+
+jobs:
+  PrepareStrategy:
+    if: ${{inputs.batches > 0}}  # batches < 1 is misconfiguration
+    runs-on: ubuntu-latest
+    outputs:
+      batches: ${{steps.matrix.outputs.matrix}}
+    steps:
+      - name: Calculate matrix
+        id: matrix
+        run: |
+          batches_output=$(python3 -c 'import json; print(json.dumps(list(range(${{inputs.batches}}))))')
+          echo "batches=${batches_output}" >> "$GITHUB_OUTPUT"
+  Test:
+    name: ${{inputs.test_name}}-${{matrix.batch}}
+    runs-on: ubuntu-latest
+    needs: [PrepareStrategy]
+    strategy:
+      matrix:
+        batch: ${{ fromJson(needs.PrepareStrategy.outputs.batches) }}
+    steps:
+      - name: Test
+        run: |
+          echo I am here

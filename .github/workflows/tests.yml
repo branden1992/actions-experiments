@@ -20,6 +20,15 @@ jobs:
     with:
       build-type: name-two
 
+  call_reusable:
+    # This test fails completely
+    # https://github.com/orgs/community/discussions/8945
+    # https://github.com/actions/runner/issues/2577
+    uses: ./.github/workflows/reusable_test.yml
+    with:
+      test_name: test name
+      batches: 6
+
   composite_test:
     runs-on: ubuntu-latest
 
