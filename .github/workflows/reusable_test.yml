@@ -22,7 +22,7 @@ jobs:
     if: ${{inputs.batches > 0}}  # batches < 1 is misconfiguration
     runs-on: ubuntu-latest
     outputs:
-      batches: ${{steps.matrix.outputs.matrix}}
+      batches: ${{steps.matrix.outputs.batches}}
     steps:
       - name: Calculate matrix
         id: matrix
@@ -40,3 +40,7 @@ jobs:
       - name: Test
         run: |
           echo I am here
+          echo needs
+          cat << 'EOF'
+          ${{ toJSON(needs) }}
+          EOF
