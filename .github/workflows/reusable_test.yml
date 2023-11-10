@@ -14,7 +14,7 @@ name: Testing workflow
         default: 1
         type: number
     secrets:
-      pat_token:
+      secret_envs:
         description: optional PAT
         required: false
 
@@ -42,10 +42,19 @@ jobs:
       matrix:
         batch: ${{ fromJson(needs.PrepareStrategy.outputs.batches) }}
     steps:
+      - run: |
+          cat >> "$GITHUB_ENV" << 'EOF'
+          ${{secrets.secret_envs}}
+          EOF
       - name: Test
         run: |
           echo I am here
+          echo env
+          cat << 'EOF'
+          ${{ toJSON(env) }}
+          EOF
           echo needs
           cat << 'EOF'
           ${{ toJSON(needs) }}
           EOF
+          env

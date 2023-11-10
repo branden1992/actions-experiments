@@ -37,7 +37,10 @@ jobs:
       test_name: test name
       batches: 1
     secrets:
-      pat_token: "12344444"
+      secret_envs: |
+        ROBOT_CLICKHOUSE_SSH_KEY<<RCSK
+        ${{secrets.TEST_SECRET_CHAIN}}
+        RCSK
 
   composite_test:
     runs-on: ubuntu-latest
