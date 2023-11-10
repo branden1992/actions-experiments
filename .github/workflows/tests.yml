@@ -86,7 +86,14 @@ jobs:
       - name: And finally, diff
         run: git diff --name-only origin/master
 
+  DownloadArtifactsNonExistent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          path: reports-dir
   CreateArtifact:
+    needs: [DownloadArtifactsNonExistent]
     runs-on: ubuntu-latest
     name: CreateArtifact-${{matrix.id}}
     strategy:
