@@ -35,7 +35,7 @@ jobs:
     uses: ./.github/workflows/reusable_test.yml
     with:
       test_name: test name
-      batches: 2
+      batches: 1
     secrets:
       pat_token: "12344444"
 
