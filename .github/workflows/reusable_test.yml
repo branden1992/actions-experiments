@@ -13,6 +13,10 @@ name: Testing workflow
         description: how many batches for the test will be launched
         default: 1
         type: number
+    secrets:
+      pat_token:
+        description: optional PAT
+        required: false
 
 env:
   CHECK_NAME: ${{inputs.test_name}}
@@ -27,6 +31,7 @@ jobs:
       - name: Calculate matrix
         id: matrix
         run: |
+          echo ${{secrets.pat_token || 12}}
           batches_output=$(python3 -c 'import json; print(json.dumps(list(range(${{inputs.batches}}))))')
           echo "batches=${batches_output}" >> "$GITHUB_OUTPUT"
   Test:
