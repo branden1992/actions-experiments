@@ -5,9 +5,6 @@ name: Testing workflow
 'on':
   workflow_call:
     inputs:
-      run_command:
-        description: test required
-        required: true
       test_name:
         description: the value of test type from tests/ci/ci_config.py, ends up as $CHECK_NAME ENV
         required: true
@@ -16,6 +13,9 @@ name: Testing workflow
         description: how many batches for the test will be launched
         default: 1
         type: number
+      check_finished_command:
+        description: the command to check if the test is already finished
+        type: string
     secrets:
       secret_envs:
         description: optional PAT
@@ -26,10 +26,11 @@ env:
 
 jobs:
   PrepareStrategy:
-    if: ${{inputs.batches > 0}}  # batches < 1 is misconfiguration
+    if: ${{inputs.batches > 1}}  # batches < 1 is misconfiguration
     runs-on: ubuntu-latest
     outputs:
       batches: ${{steps.matrix.outputs.batches}}
+      already_finished: ${{steps.already_finished.outputs.already_finished}}
     steps:
       - name: Calculate matrix
         id: matrix
@@ -37,7 +38,24 @@ jobs:
           echo ${{secrets.pat_token || 12}}
           batches_output=$(python3 -c 'import json; print(json.dumps(list(range(${{inputs.batches}}))))')
           echo "batches=${batches_output}" >> "$GITHUB_OUTPUT"
+      - name: Check the finished
+        if: ${{ inputs.check_finished_command != '' }}
+        id: check_finished
+        continue-on-error: true
+        run: |
+          ${{ inputs.check_finished_command }}
+      - name: Set the already_finished
+        id: already_finished
+        if: ${{ inputs.check_finished_command != '' }}
+        run: |
+          if [ "${{steps.check_finished.outcome}}" = 'success' ]; then
+            echo 'already_finished=true' >> "$GITHUB_OUTPUT"
+          elif [ "${{steps.check_finished.outcome}}" = 'failure' ]; then
+            echo 'already_finished=false' >> "$GITHUB_OUTPUT"
+          else echo 'A wrong value of steps.check_finished.outcome="${{steps.check_finished.outcome}}"'
+          fi
   Test:
+    if: ${{ ! cancelled() && (inputs.batches > 0 || needs.PrepareStrategy.outputs.already_finished != 'true') }}
     name: ${{inputs.test_name}}${{ inputs.batches > 1 && format('-{0}', matrix.batch) || '' }}
     runs-on: ubuntu-latest
     needs: [PrepareStrategy]
