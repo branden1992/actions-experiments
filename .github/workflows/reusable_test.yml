@@ -5,6 +5,9 @@ name: Testing workflow
 'on':
   workflow_call:
     inputs:
+      run_command:
+        description: test required
+        required: true
       test_name:
         description: the value of test type from tests/ci/ci_config.py, ends up as $CHECK_NAME ENV
         required: true
