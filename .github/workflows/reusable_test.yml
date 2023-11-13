@@ -61,7 +61,9 @@ jobs:
     needs: [PrepareStrategy]
     strategy:
       matrix:
-        batch: ${{ fromJson(needs.PrepareStrategy.outputs.batches) || fromJson('[1]')}}
+        batch: ${{ needs.PrepareStrategy.outputs.batches
+          && fromJson(needs.PrepareStrategy.outputs.batches)
+          || fromJson('[0]')}}
     steps:
       - run: |
           cat >> "$GITHUB_ENV" << 'EOF'
