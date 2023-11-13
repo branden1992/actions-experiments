@@ -55,7 +55,7 @@ jobs:
           else echo 'A wrong value of steps.check_finished.outcome="${{steps.check_finished.outcome}}"'
           fi
   Test:
-    if: ${{ (inputs.batches > 0 || needs.PrepareStrategy.outputs.already_finished != 'true') }}
+    if: ${{ ! cancelled() && (inputs.batches > 0 || needs.PrepareStrategy.outputs.already_finished != 'true') }}
     name: ${{inputs.test_name}}${{ inputs.batches > 1 && format('-{0}', matrix.batch) || '' }}
     runs-on: ubuntu-latest
     needs: [PrepareStrategy]
