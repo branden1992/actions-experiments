@@ -1,0 +1,27 @@
+### For the pure soul wishes to move it to another place
+# https://github.com/orgs/community/discussions/9050
+
+name: Get the full job name here
+'on':
+  workflow_call:
+
+env:
+  CHECK_NAME: ${{inputs.test_name}}
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
+      - name: Contextx
+        run: |
+          echo I am here
+          echo env
+          cat << 'EOF'
+          ${{ toJSON(env) }}
+          EOF
+          echo needs
+          cat << 'EOF'
+          ${{ toJSON(needs) }}
+          EOF
+          env
