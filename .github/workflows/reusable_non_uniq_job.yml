@@ -12,6 +12,7 @@ jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
+      - uses: ReeganExE/github-action-job-id@f1f52d934b56dcb948732308bfb40b2e0cd03ff1
       - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
       - name: Contextx
         run: |
