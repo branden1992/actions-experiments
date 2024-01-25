@@ -21,6 +21,7 @@ jobs:
     steps:
       - uses: hmarr/debug-action@1201a20fc9d278ddddd5f0f46922d06513892491
       - run: |
+          echo github.head_ref ${{ github.head_ref }}
           echo github
           cat << 'EOF'
           ${{ toJSON(github) }}
