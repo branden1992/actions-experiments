@@ -1,0 +1,18 @@
+{
+    "screencastMode.keyboardOptions": {
+        "showCommandGroups": true
+    },
+    "search.experimental.closedNotebookRichContentResults": true,
+    "debug.showBreakpointsInOverviewRuler": true,
+    "testing.alwaysRevealTestOnStateChange": true,
+    "testing.showAllMessages": true,
+    "scm.alwaysShowActions": true,
+    "scm.alwaysShowRepositories": true,
+    "scm.providerCountBadge": "auto",
+    "terminal.integrated.confirmOnExit": "always",
+    "terminal.integrated.macOptionIsMeta": true,
+    "terminal.integrated.tabs.defaultIcon": "github",
+    "task.quickOpen.showAll": true,
+    "task.verboseLogging": true,
+    "problems.defaultViewMode": "tree"
+}
